@@ -1,6 +1,64 @@
 * {
     box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
+
 }
 
+body {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.wrong {
+    background-color: red;
+}
+
+.correct {
+    background-color: green;
+}
+
+.gameContainer {
+    width: 1000px;
+    max-width: 80%;
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px;
+}
+
+.answerGrid {
+
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+}
+
+.btn {
+    border: 2px solid blue;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.5rem;
+}
+
+.btn:hover {
+    background-color: blue;
+    color:white;
+}
+
+.startBtn, .nextBtn {
+    font-size: 2rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hide {
+    display: none;
+}
