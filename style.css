@@ -62,3 +62,7 @@ body {
 .hide {
     display: none;
 }
+
+.question {
+    justify-content: center;
+}
