@@ -6,6 +6,12 @@ const questionContainer = document.getElementById('questionContainer');
 const questionEl = document.getElementById('question');
 const answerBtnEl = document.getElementById('answerBtn');
 
+var timer = document.getElementById('timer');
+
+
+var startTime = 60;
+var gameScore = 0;
+
 
 //array of all questions. each array item is an object with a question bank and answer array
 const questionBank = [
@@ -13,45 +19,45 @@ const questionBank = [
     {
         question: 'test question 1 ( 1 is correct)',
         answers:  [ 
-            { text: 'test answer 1' },
-            { text: 'test 2' },
-            { text: ' answer 3' },
-            { text: 'tes 4' }
+            { text: 'Answer 1'},
+            { text: 'Answer 2'},
+            { text: 'Answer 3'},
+            { text: 'Answer 4'}
         ],
-        correct: 'test answer 1'
+        correct: 'Answer 1'
     },
 
     {
         question: 'test question 2 (3 is correct)',
         answers:  [ 
-            { text: 'tswer 1'},
-            { text: 'test 2'},
-            { text: '3'},
-            { text: 'answer 4'}
+            { text: 'Answer 1'},
+            { text: 'Answer 2'},
+            { text: 'Answer 3'},
+            { text: 'Answer 4'}
         ],
-        correct: '3'
+        correct: 'Answer 3'
     },
 
     {
         question: 'test question 3  (correct is 2)',
         answers:  [ 
-            { text: 'test answer 1' },
-            { text: 'test answer 2' },
-            { text: 'test answer 3' },
-            { text: 'test answer 4' }
+            { text: 'Answer 1'},
+            { text: 'Answer 2'},
+            { text: 'Answer 3'},
+            { text: 'Answer 4'}
         ],
-        correct: 'test answer 2'
+        correct: 'Answer 2'
     },
 
     {
         question: 'test question 4 (4 is correct)',
         answers:  [ 
-            { text: 'test answer 1' },
-            { text: 'test answer 2' },
-            { text: 'test answer 3' },
-            { text: 'test answer 4' }
+            { text: 'Answer 1'},
+            { text: 'Answer 2'},
+            { text: 'Answer 3'},
+            { text: 'Answer 4'}
         ],
-        correct: 'test answer 4'
+        correct: 'Answer 4'
     }
 ];
 
@@ -60,7 +66,7 @@ let shuffledQuestions;
 let currentQuestionIndex;
 
 
-var gameScore = 0;
+
 
 
 
@@ -81,7 +87,20 @@ function startGame() {
     shuffledQuestions = questionBank.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     questionContainer.classList.remove('hide');
+    countdownTimer();
     setNextQuestion();
+}
+
+
+// need to start a countdown from X seconds to endgame after time runs out
+function countdownTimer() {
+    startTime--;
+    timer.innerText = String(startTime);
+    if (startTime > 0) {
+        setTimeout(countdownTimer, 1000);
+    } else { alert("You've run out of time!")
+    }
+
 }
 
 

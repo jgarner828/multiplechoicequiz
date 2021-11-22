@@ -13,6 +13,13 @@ body {
     height: 100vh;
 }
 
+#timer {
+    padding: 20px;
+    margin: 20px;
+    height: 20px;
+    text-align: center;
+}
+
 
 .gameContainer {
     width: 1000px;
