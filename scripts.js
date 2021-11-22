@@ -96,7 +96,8 @@ function setNextQuestion() {
 
 //this inserts the question into the quiz
 function showQuestion(currentQuestion) {
-    questionEl.innerText = currentQuestion.question;
+
+    questionEl.textContent = currentQuestion.question;
     currentQuestion.answers.forEach(answer => {
         var button = document.createElement('button');
         button.textContent = answer.text;
@@ -119,26 +120,33 @@ function reset() {
 
 // after you picked an answer..... 
 function pickAnswer(e) {
-
-    // if at the end of the array restart the game and post the score
+ // if at the end of the array restart the game and post the score
     if (shuffledQuestions.length === currentQuestionIndex + 1) {
-        startBtn.innerText = 'Restart';
+        console.log('end of game score is ' + gameScore);
+        questionEl.classList.add('hide')
+        startBtn.innerText = 'Would you like to restart?';
         startBtn.classList.remove('hide');
-        postGameScore();
-        location.reload();
     }
+
 
     var selectedBtn = e.target;
     const correct = shuffledQuestions[currentQuestionIndex].correct
+
     if(selectedBtn.textContent === correct) {
         gameScore++;
-        currentQuestionIndex++;   
-        setNextQuestion();
-    } else {
-        currentQuestionIndex++;
-        setNextQuestion();
+        currentQuestionIndex++;  
+
+         
+    } else { 
+        currentQuestionIndex++; 
+        
     }
+
+    setNextQuestion();
 }
+
+  
+
 
 //function that displays your score.
 function postGameScore() {
