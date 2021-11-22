@@ -11,43 +11,47 @@ const answerBtnEl = document.getElementById('answerBtn');
 const questionBank = [
 
     {
-        question: 'test question 1',
+        question: 'test question 1 ( 1 is correct)',
         answers:  [ 
-            { text: 'test answer 1', correct: true },
-            { text: 'test answer 2', correct: false },
-            { text: 'test answer 3', correct: false },
-            { text: 'test answer 4', correct: false }
-        ]
+            { text: 'test answer 1' },
+            { text: 'test 2' },
+            { text: ' answer 3' },
+            { text: 'tes 4' }
+        ],
+        correct: 'test answer 1'
     },
 
     {
-        question: 'test question 2',
+        question: 'test question 2 (3 is correct)',
         answers:  [ 
-            { text: 'test answer 1', correct: true },
-            { text: 'test answer 2', correct: false },
-            { text: 'test answer 3', correct: false },
-            { text: 'test answer 4', correct: false }
-        ]
+            { text: 'tswer 1'},
+            { text: 'test 2'},
+            { text: '3'},
+            { text: 'answer 4'}
+        ],
+        correct: '3'
     },
 
     {
-        question: 'test question 3',
+        question: 'test question 3  (correct is 2)',
         answers:  [ 
-            { text: 'test answer 1', correct: true },
-            { text: 'test answer 2', correct: false },
-            { text: 'test answer 3', correct: false },
-            { text: 'test answer 4', correct: false }
-        ]
+            { text: 'test answer 1' },
+            { text: 'test answer 2' },
+            { text: 'test answer 3' },
+            { text: 'test answer 4' }
+        ],
+        correct: 'test answer 2'
     },
 
     {
-        question: 'test question 4',
+        question: 'test question 4 (4 is correct)',
         answers:  [ 
-            { text: 'test answer 1', correct: true },
-            { text: 'test answer 2', correct: false },
-            { text: 'test answer 3', correct: false },
-            { text: 'test answer 4', correct: false }
-        ]
+            { text: 'test answer 1' },
+            { text: 'test answer 2' },
+            { text: 'test answer 3' },
+            { text: 'test answer 4' }
+        ],
+        correct: 'test answer 4'
     }
 ];
 
@@ -56,13 +60,17 @@ let shuffledQuestions;
 let currentQuestionIndex;
 
 
+var gameScore = 0;
+
+
+
 // listen for a click event on Start button to start game with startGame function
 startBtn.addEventListener('click', startGame)
 
 // listens for click on the next button and increases question index and runs next question function
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex++;
-    nextQuestion();
+    setNextQuestion();
 })
 
 
@@ -73,47 +81,32 @@ function startGame() {
     shuffledQuestions = questionBank.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     questionContainer.classList.remove('hide');
-    nextQuestion();
-
+    setNextQuestion();
 }
 
 
 
-// 
-function nextQuestion() {
+//  loads the shuffled question function with random array
+function setNextQuestion() {
     reset();
     showQuestion(shuffledQuestions[currentQuestionIndex]);
-
-    questions.answers.forEach(answers => {
-        const button = document.createElement('button');
-        button.innerText = answers.text;
-        button.classList.add('btn');
-        if (answers.correct) {
-            button.dataset.correct = answers.correct;
-        }
-    })
-    button.addEventListener('click', pickAnswer);
-    answerBtnEl.appendChild(button);
-
 }
 
 
 
 //this inserts the question into the quiz
-function showQuestion(questions) {
-    questionEl.innerText = questions.question;
-    questions.answers.forEach(answers => {
-        var button = document.getElementById('btn');
-        button.innerText = answers.text;
+function showQuestion(currentQuestion) {
+    questionEl.innerText = currentQuestion.question;
+    currentQuestion.answers.forEach(answer => {
+        var button = document.createElement('button');
+        button.textContent = answer.text;
         button.classList.add('btn');
-        if (answers.correct) {
-            button.dataset.correct = answers.correct;
-        }
         button.addEventListener('click', pickAnswer);
-        answerBtnEl.appendChild(btn);
+        answerBtnEl.appendChild(button);
     })
 
 }
+
 
 function reset() {
     nextBtn.classList.add('hide');
@@ -124,34 +117,32 @@ function reset() {
 
 
 
-
+// after you picked an answer..... 
 function pickAnswer(e) {
-    var selectedBtn = e.target;
-    const correct = selectedBtn.dataset.correct;
-    setStatusClass(document.body, correct);
-    Array.from(answerBtnEl.children).forEach(btn => {
-        setStatusClass(btn, btn.dataset.correct)
-    })
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextBtn.classList.remove('hide');
-    } else {
+
+    // if at the end of the array restart the game and post the score
+    if (shuffledQuestions.length === currentQuestionIndex + 1) {
         startBtn.innerText = 'Restart';
         startBtn.classList.remove('hide');
+        postGameScore();
+        location.reload();
     }
 
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element);
-    if (correct) {
-        element.classList.add('correct');
+    var selectedBtn = e.target;
+    const correct = shuffledQuestions[currentQuestionIndex].correct
+    if(selectedBtn.textContent === correct) {
+        gameScore++;
+        currentQuestionIndex++;   
+        setNextQuestion();
     } else {
-        element.classList.add('wrong');
+        currentQuestionIndex++;
+        setNextQuestion();
     }
 }
 
-function clearStatusClass(element) {
-    element.classList.remove('correct');
-    element.classList.remove('wrong');
+//function that displays your score.
+function postGameScore() {
 
+    alert("You got  " + gameScore + " correct.");
 }
+

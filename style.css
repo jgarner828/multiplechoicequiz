@@ -13,13 +13,6 @@ body {
     height: 100vh;
 }
 
-.wrong {
-    background-color: red;
-}
-
-.correct {
-    background-color: green;
-}
 
 .gameContainer {
     width: 1000px;
@@ -37,17 +30,13 @@ body {
 }
 
 .btn {
-    border: 2px solid blue;
+    border: 2px solid black;
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
     font-size: 1.5rem;
 }
 
-.btn:hover {
-    background-color: blue;
-    color:white;
-}
 
 .startBtn, .nextBtn {
     font-size: 2rem;
@@ -64,5 +53,7 @@ body {
 }
 
 .question {
-    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    font-size: 2rem;
 }
