@@ -94,9 +94,20 @@ function setNextQuestion() {
 
 
 
+
+function reset() {
+    nextBtn.classList.add('hide');
+    while (answerBtnEl.firstChild) {
+        answerBtnEl.removeChild(answerBtnEl.firstChild)
+    }
+}
+
+
+
 //this inserts the question into the quiz
 function showQuestion(currentQuestion) {
 
+    questionEl.classList.remove('hide');
     questionEl.textContent = currentQuestion.question;
     currentQuestion.answers.forEach(answer => {
         var button = document.createElement('button');
@@ -109,28 +120,21 @@ function showQuestion(currentQuestion) {
 }
 
 
-function reset() {
-    nextBtn.classList.add('hide');
-    while (answerBtnEl.firstChild) {
-        answerBtnEl.removeChild(answerBtnEl.firstChild)
-    }
-}
-
-
-
 // after you picked an answer..... 
 function pickAnswer(e) {
- // if at the end of the array restart the game and post the score
-    if (shuffledQuestions.length === currentQuestionIndex + 1) {
-        console.log('end of game score is ' + gameScore);
-        questionEl.classList.add('hide')
-        startBtn.innerText = 'Would you like to restart?';
-        startBtn.classList.remove('hide');
-    }
-
 
     var selectedBtn = e.target;
     const correct = shuffledQuestions[currentQuestionIndex].correct
+
+
+ // if at the end of the array restart the game and post the score
+    if (shuffledQuestions.length === currentQuestionIndex + 1) {
+        if(selectedBtn.textContent === correct) {
+            gameScore++;
+        }
+        endGame();
+    }
+
 
     if(selectedBtn.textContent === correct) {
         gameScore++;
@@ -143,14 +147,11 @@ function pickAnswer(e) {
     }
 
     setNextQuestion();
-}
 
-  
+}
 
 
 //function that displays your score.
-function postGameScore() {
-
-    alert("You got  " + gameScore + " correct.");
+function endGame() {
+    questionEl.textContent = "game score is: " + gameScore;
 }
-
