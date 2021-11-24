@@ -7,6 +7,7 @@ body {
     margin: 0px;
     padding: 0px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100vw;
@@ -14,13 +15,38 @@ body {
 }
 
 #timer {
+    display: flex;
     padding: 20px;
     margin: 20px;
     height: 20px;
-    text-align: center;
+    justify-content: center;
+    align-content: center;
+    font-size: 1.5rem;
     background-color: grey;
     border-radius: 10px;
     box-shadow: 0 0 5px 5px;
+}
+
+#scoreboard {    
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px;
+
+}
+
+.nameInput, .scoreList {
+    padding: 5px;
+    margin: 5px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 2px;
 }
 
 

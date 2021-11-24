@@ -11,21 +11,36 @@
 </head>
 <body>
 
-<div id = "timer"></div>
+  <div id = "scoreboard">
+    <h2>Previous game</h2>
+    <div id = "nameInput" class = "nameInput"></div>
+    <div id = "previousScore" class = "scoreList"> </div>
+  </div>
 
+<div id = "timer" class = "hide"></div>
 
+<!-- this is the main container for the game -->
 <div class="gameContainer">
+
     <div id="questionContainer" class="hide">
-      <div id="question" class="question"> Question </div>
-        <div id="answerBtn" class="answerGrid">
+      <div id="question" class="question "> Question </div>
+        <div id="answerBtn" class="answerGrid ">
           <!--buttons created as needed by javascript-->
         </div>
       </div>
+
     <div class="controls">
         <button id="startBtn" class ="startBtn btn">Start</button>
-        <button id="nextBtn" class ="nextBtn btn hide">Next Question</button>
+        <button id="restartBtn" class ="restartBtn btn hide">Restart</button>
     </div>
 </div>
+
+
+
 <script src="scripts.js"></script>
+
 </body>
+
+
+
 </html>

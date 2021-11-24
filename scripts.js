@@ -1,13 +1,26 @@
-
 // adding constants from the DOM
 const startBtn = document.getElementById('startBtn');
 const nextBtn = document.getElementById('nextBtn');
+
 const questionContainer = document.getElementById('questionContainer');
 const questionEl = document.getElementById('question');
 const answerBtnEl = document.getElementById('answerBtn');
 
-var timer = document.getElementById('timer');
+const scoreboardContainer = document.getElementById('scoreboard');
+let scoreName = document.getElementById('nameInput');
+let prevScore = document.getElementById('previousScore');
 
+
+// if (localStorage.getItem('name') =! null) {
+// scoreName.append(localStorage.getItem('name'));
+// }
+
+scoreName.textContent = localStorage.getItem('name');
+prevScore.textContent = localStorage.getItem('prevScore');
+
+
+
+var timer = document.getElementById('timer');
 
 var startTime = 60;
 var gameScore = 0;
@@ -67,23 +80,21 @@ let currentQuestionIndex;
 
 
 
-
-
-
 // listen for a click event on Start button to start game with startGame function
 startBtn.addEventListener('click', startGame)
-
-// listens for click on the next button and increases question index and runs next question function
-nextBtn.addEventListener('click', () => {
-    currentQuestionIndex++;
-    setNextQuestion();
-})
 
 
 
 // hides the start button. shuffles question index, displays the question container and loads next question function
 function startGame() {
+    //sets your name
+    let name = window.prompt('Enter your name!');
+    if (name != null) {
+    localStorage.setItem('name', name);
+    } else { let name = window.prompt('Enter your name!');}
+
     startBtn.classList.add('hide');
+    scoreboardContainer.classList.add('hide');
     shuffledQuestions = questionBank.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     questionContainer.classList.remove('hide');
@@ -99,28 +110,19 @@ function countdownTimer() {
     if (startTime > 0) {
         setTimeout(countdownTimer, 1000);
     } else { alert("You've run out of time!")
+        endGame();
     }
 
 }
-
 
 
 //  loads the shuffled question function with random array
 function setNextQuestion() {
-    reset();
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
-}
-
-
-
-
-function reset() {
-    nextBtn.classList.add('hide');
     while (answerBtnEl.firstChild) {
         answerBtnEl.removeChild(answerBtnEl.firstChild)
     }
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
 }
-
 
 
 //this inserts the question into the quiz
@@ -172,5 +174,6 @@ function pickAnswer(e) {
 
 //function that displays your score.
 function endGame() {
+    localStorage.setItem('prevScore', gameScore);
     questionEl.textContent = "game score is: " + gameScore;
 }
