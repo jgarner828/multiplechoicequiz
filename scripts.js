@@ -1,6 +1,6 @@
 // adding constants from the DOM
 const startBtn = document.getElementById('startBtn');
-const nextBtn = document.getElementById('nextBtn');
+const restartBtn = document.getElementById('restartBtn');
 
 const questionContainer = document.getElementById('questionContainer');
 const questionEl = document.getElementById('question');
@@ -11,66 +11,63 @@ let scoreName = document.getElementById('nameInput');
 let prevScore = document.getElementById('previousScore');
 
 
-// if (localStorage.getItem('name') =! null) {
-// scoreName.append(localStorage.getItem('name'));
-// }
 
 scoreName.textContent = localStorage.getItem('name');
 prevScore.textContent = localStorage.getItem('prevScore');
 
 
+let timer = document.getElementById('timer');
+let timerStop = false;
 
-var timer = document.getElementById('timer');
-
-var startTime = 60;
-var gameScore = 0;
+let startTime = 20;
+let gameScore = 0;
 
 
 //array of all questions. each array item is an object with a question bank and answer array
 const questionBank = [
 
     {
-        question: 'test question 1 ( 1 is correct)',
+        question: 'Javascript is also currently known as...',
         answers:  [ 
-            { text: 'Answer 1'},
-            { text: 'Answer 2'},
-            { text: 'Answer 3'},
+            { text: 'Python'},
+            { text: 'ES6'},
+            { text: 'ES7'},
             { text: 'Answer 4'}
         ],
-        correct: 'Answer 1'
+        correct: 'ES6'
     },
 
     {
-        question: 'test question 2 (3 is correct)',
+        question: 'Which one is not a variable type in Javascript?',
         answers:  [ 
-            { text: 'Answer 1'},
-            { text: 'Answer 2'},
-            { text: 'Answer 3'},
-            { text: 'Answer 4'}
+            { text: 'Boolean'},
+            { text: 'Number'},
+            { text: 'Function'},
+            { text: 'String'}
         ],
-        correct: 'Answer 3'
+        correct: 'Function'
     },
 
     {
-        question: 'test question 3  (correct is 2)',
+        question: 'Which type of variable cannot be redefined after being declared?',
         answers:  [ 
-            { text: 'Answer 1'},
-            { text: 'Answer 2'},
-            { text: 'Answer 3'},
-            { text: 'Answer 4'}
+            { text: 'var'},
+            { text: 'const'},
+            { text: 'let'},
+            { text: 'standard'}
         ],
-        correct: 'Answer 2'
+        correct: 'const'
     },
 
     {
-        question: 'test question 4 (4 is correct)',
+        question: 'What is OOP?',
         answers:  [ 
-            { text: 'Answer 1'},
-            { text: 'Answer 2'},
-            { text: 'Answer 3'},
-            { text: 'Answer 4'}
+            { text: 'Object-oriented Programming'},
+            { text: 'Oriented-object Programming'},
+            { text: 'Outside-object Printing'},
+            { text: 'Ordered-object Parsing'}
         ],
-        correct: 'Answer 4'
+        correct: 'Object-oriented Programming'
     }
 ];
 
@@ -81,35 +78,51 @@ let currentQuestionIndex;
 
 
 // listen for a click event on Start button to start game with startGame function
-startBtn.addEventListener('click', startGame)
-
+startBtn.addEventListener('click', startGame);
 
 
 // hides the start button. shuffles question index, displays the question container and loads next question function
+
 function startGame() {
+
+
     //sets your name
     let name = window.prompt('Enter your name!');
     if (name != null) {
     localStorage.setItem('name', name);
+
+    
     } else { let name = window.prompt('Enter your name!');}
 
+    //hides the start button and scoreboard, shows the timer
     startBtn.classList.add('hide');
     scoreboardContainer.classList.add('hide');
+    // scoreboardContainer.classList.add('hide');
+    timer.classList.remove('hide');
+
     shuffledQuestions = questionBank.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     questionContainer.classList.remove('hide');
     countdownTimer();
     setNextQuestion();
-}
+
 
 
 // need to start a countdown from X seconds to endgame after time runs out
 function countdownTimer() {
+
+    // if the endgame function runs exit out of timer.
+    if (timerStop) {
+        return;
+    }
+
     startTime--;
     timer.innerText = String(startTime);
+
+
     if (startTime > 0) {
         setTimeout(countdownTimer, 1000);
-    } else { alert("You've run out of time!")
+    } else { 
         endGame();
     }
 
@@ -144,9 +157,8 @@ function showQuestion(currentQuestion) {
 // after you picked an answer..... 
 function pickAnswer(e) {
 
-    var selectedBtn = e.target;
+    let selectedBtn = e.target;
     const correct = shuffledQuestions[currentQuestionIndex].correct
-
 
  // if at the end of the array restart the game and post the score
     if (shuffledQuestions.length === currentQuestionIndex + 1) {
@@ -155,25 +167,28 @@ function pickAnswer(e) {
         }
         endGame();
     }
-
-
     if(selectedBtn.textContent === correct) {
         gameScore++;
         currentQuestionIndex++;  
-
-         
     } else { 
         currentQuestionIndex++; 
-        
     }
 
     setNextQuestion();
 
 }
-
+}
 
 //function that displays your score.
 function endGame() {
     localStorage.setItem('prevScore', gameScore);
     questionEl.textContent = "game score is: " + gameScore;
+    timerStop = true;
+    timer.classList.add('hide');
+    restartBtn.classList.remove('hide');
+
+    while (answerBtnEl.firstChild) {
+        answerBtnEl.removeChild(answerBtnEl.firstChild)
+    }
 }
+
