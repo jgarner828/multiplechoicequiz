@@ -186,9 +186,16 @@ function endGame() {
     timerStop = true;
     timer.classList.add('hide');
     restartBtn.classList.remove('hide');
+    restartBtn.addEventListener('click', restartGame);
 
     while (answerBtnEl.firstChild) {
         answerBtnEl.removeChild(answerBtnEl.firstChild)
     }
 }
 
+function restartGame() {
+    startTime = 20;
+    timerStop = false;
+    gameScore = 0;
+    startGame();
+}
